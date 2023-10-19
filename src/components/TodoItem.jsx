@@ -1,9 +1,18 @@
 import { useState } from "react";
 
-function TodoItem({ todo, handleChecked, handleDelete }) {
+function TodoItem({ todo, handleChecked, handleDelete, handleEdit }) {
+  const [editedTodo, setEditedTodo] = useState(todo.description);
   const [editMode, setEditMode] = useState(false);
   const toggleEditMode = () => {
     setEditMode(!editMode);
+  };
+
+  const handleEditButton = () => {
+    if (editMode) {
+      handleEdit({ ...todo, description: editedTodo });
+    }
+
+    toggleEditMode();
   };
 
   return (
@@ -16,8 +25,22 @@ function TodoItem({ todo, handleChecked, handleDelete }) {
           handleChecked(todo["id"], e.target.checked);
         }}
       />
-      <label htmlFor={`checkbox-${todo.id}`}>{todo.description}</label>
-      <button onClick={toggleEditMode}>{editMode ? "Save" : "Edit"}</button>
+      {editMode ? (
+        <input
+          type="text"
+          value={editedTodo}
+          onChange={(e) => setEditedTodo(e.target.value)}
+        />
+      ) : (
+        <label htmlFor={`checkbox-${todo.id}`}>{todo.description}</label>
+      )}
+      <button
+        onClick={() => {
+          handleEditButton();
+        }}
+      >
+        {editMode ? "Save" : "Edit"}
+      </button>
       <button onClick={() => handleDelete(todo["id"])}>Delete</button>
     </li>
   );

@@ -41,6 +41,12 @@ function App() {
     setTodos((oldTodos) => [...oldTodos, todo]);
   };
 
+  const handleEdit = (editedTodo) => {
+    setTodos((oldTodos) =>
+      oldTodos.map((todo) => (todo.id === editedTodo.id ? editedTodo : todo))
+    );
+  };
+
   const todoList = todos.map((todo) => {
     return (
       <TodoItem
@@ -48,6 +54,7 @@ function App() {
         todo={todo}
         handleChecked={handleChecked}
         handleDelete={handleDelete}
+        handleEdit={handleEdit}
       />
     );
   });
