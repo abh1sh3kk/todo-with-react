@@ -3,7 +3,7 @@ import { useState } from "react";
 function AddTodo({ handleAdd }) {
   const [newTodo, setNewTodo] = useState({ description: "", completed: false });
   return (
-    <>
+    <form className="form" onSubmit={(e) => e.preventDefault()}>
       <input
         type="text"
         value={newTodo.description}
@@ -19,14 +19,14 @@ function AddTodo({ handleAdd }) {
         onClick={() => {
           setNewTodo({ description: "", completed: false });
           handleAdd({
-              ...newTodo,
+            ...newTodo,
             id: newTodo.description,
           });
         }}
       >
         +Add
       </button>
-    </>
+    </form>
   );
 }
 
