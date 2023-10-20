@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
-import TodoItem from "./components/TodoItem";
 import AddTodo from "./components/AddTodo";
+import ItemList from "./components/ItemList";
 
 const initialTodos = [
   {
@@ -19,7 +19,7 @@ const initialTodos = [
     description: "Go for a run",
     completed: false,
   },
-   {
+  {
     id: 6,
     description: "Read a book",
     completed: false,
@@ -77,22 +77,19 @@ function App() {
     );
   };
 
-  const todoList = todos.map((todo) => {
-    return (
-      <TodoItem
-        key={todo.id}
-        todo={todo}
-        handleChecked={handleChecked}
-        handleDelete={handleDelete}
-        handleEdit={handleEdit}
-      />
-    );
-  });
-
   return (
-    <main>
-      <AddTodo handleAdd={handleAdd} />
-      <ul>{todoList}</ul>
+    <main className="container">
+      <section className="todo-container">
+        <h1 className="heading1">Todo List</h1>
+
+        <ItemList
+          todos={todos}
+          handleChecked={handleChecked}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+        />
+        <AddTodo handleAdd={handleAdd} />
+      </section>
     </main>
   );
 }
