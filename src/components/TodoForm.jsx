@@ -2,7 +2,7 @@ import { useState } from "react";
 import { BsPlusLg } from "react-icons/bs";
 
 function TodoForm({ handleAdd }) {
-  const [newTodo, setNewTodo] = useState({
+  const defaultState = {
     title: "",
     description: "",
     completed: false,
@@ -11,9 +11,16 @@ function TodoForm({ handleAdd }) {
     deadline: "",
     priority: "medium",
     category: "",
-  });
+  };
+  const [newTodo, setNewTodo] = useState(defaultState);
   return (
-    <form className="form add-todo" onSubmit={(e) => e.preventDefault()}>
+    <form
+      className="form add-todo"
+      onSubmit={(e) => {
+        e.preventDefault();
+        console.log(newTodo);
+      }}
+    >
       <label className="add-todo__field">
         <span>Title</span>
         <input
@@ -84,13 +91,16 @@ function TodoForm({ handleAdd }) {
           min="2023-01-01"
           max="2024-12-12"
           value="2023-10-21"
+          onChange={(e) => {
+            console.log(e.target.value);
+          }}
         />
       </label>
 
       <button
         className="add-todo__btn"
         onClick={() => {
-          setNewTodo({ title: "", completed: false });
+          setNewTodo(defaultState);
           handleAdd({
             ...newTodo,
             id: newTodo.title,
