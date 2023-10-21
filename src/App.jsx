@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./App.css";
-import AddTodo from "./components/AddTodo";
+import TodoForm from "./components/TodoForm";
 import ItemList from "./components/ItemList";
 
 const importedTodos = [
@@ -13,6 +13,7 @@ const importedTodos = [
     dateModified: null,
     priority: "high",
     completed: false,
+    category: "Movie",
   },
   {
     id: "bcf36b94-7e47-4d49-aabd-23e3cf2071d1",
@@ -24,6 +25,7 @@ const importedTodos = [
     dateModified: null,
     priority: "low",
     completed: false,
+    category: "Chores",
   },
   {
     id: "4f5b5471-4363-4120-9a85-b4ac1d44e9a6",
@@ -34,6 +36,7 @@ const importedTodos = [
     dateModified: null,
     completed: true,
     priority: "low",
+    category: "Movie",
   },
   {
     id: "6d11f24f-8467-4d2b-b33a-30299644a46f",
@@ -44,6 +47,7 @@ const importedTodos = [
     dateModified: "2023/07/24",
     priority: "low",
     completed: false,
+    category: "Chores",
   },
   {
     id: "735e700f-37a9-432f-88f6-6beaee5e965f",
@@ -54,6 +58,7 @@ const importedTodos = [
     dateModified: null,
     completed: true,
     priority: "low",
+    category: "Chores",
   },
   {
     id: "d0ea1018-3c81-4253-ac30-17c6125b5b70",
@@ -64,6 +69,7 @@ const importedTodos = [
     dateModified: null,
     completed: true,
     priority: "high",
+    category: "Office",
   },
   {
     id: "517027eb-1bc1-4533-9244-c137361386d0",
@@ -73,6 +79,7 @@ const importedTodos = [
     dateCreated: "2022/12/08",
     dateModified: "2023/08/20",
     priority: "medium",
+    category: "Office",
   },
   {
     id: "2826267f-8580-47ba-8c58-d0a7a9b69324",
@@ -83,6 +90,7 @@ const importedTodos = [
     dateModified: null,
     priority: "low",
     completed: true,
+    category: "Movie",
   },
   {
     id: "74f428a5-5a48-4f1a-95bd-f0ef1683bfd7",
@@ -93,6 +101,7 @@ const importedTodos = [
     dateModified: "2023/08/17",
     priority: "high",
     completed: false,
+    category: "Office",
   },
   {
     id: "0fd46382-9c5a-488a-8ed3-3f8e74628b2e",
@@ -103,6 +112,7 @@ const importedTodos = [
     dateModified: null,
     priority: "medium",
     completed: true,
+    category: "Academics",
   },
   {
     id: "e5ca9b42-2ef3-4d45-a136-0d789035d5e1",
@@ -113,6 +123,7 @@ const importedTodos = [
     dateModified: null,
     priority: "low",
     completed: true,
+    category: "Academics",
   },
   {
     id: "26a4d782-f463-4ed0-8a64-70f9aa3fb05c",
@@ -124,6 +135,7 @@ const importedTodos = [
     dateModified: "2023/03/18",
     completed: true,
     priority: "medium",
+    category: "Academics",
   },
   {
     id: "3fcf0865-814e-44f2-9bf4-fcf2bbc51b0d",
@@ -135,6 +147,7 @@ const importedTodos = [
     completed: false,
     dateModified: "2023/01/20",
     priority: "low",
+    category: "Movie",
   },
   {
     id: "b6155976-5a0d-4266-b17f-af7f2cac92cf",
@@ -145,6 +158,7 @@ const importedTodos = [
     dateModified: "2023/08/20",
     priority: "low",
     completed: false,
+    category: "Academics",
   },
   {
     id: "1c46cce8-0223-490b-a623-457fe6de564b",
@@ -156,6 +170,7 @@ const importedTodos = [
     dateModified: null,
     completed: false,
     priority: "high",
+    category: "Others",
   },
 ];
 
@@ -244,7 +259,7 @@ function App() {
           handleDelete={handleDelete}
           handleEdit={handleEdit}
         />
-        <AddTodo handleAdd={handleAdd} />
+        <TodoForm handleAdd={handleAdd} />
       </section>
     </main>
   );
