@@ -2,27 +2,27 @@ import { useState } from "react";
 import { BsPlusLg } from "react-icons/bs";
 
 function AddTodo({ handleAdd }) {
-  const [newTodo, setNewTodo] = useState({ description: "", completed: false });
+  const [newTodo, setNewTodo] = useState({ title: "", completed: false });
   return (
     <form className="form add-todo" onSubmit={(e) => e.preventDefault()}>
       <input
         type="text"
         className="add-todo__input"
-        value={newTodo.description}
+        value={newTodo.title}
         onChange={(e) => {
           setNewTodo((oldTodo) => ({
             ...oldTodo,
-            description: e.target.value,
+            title: e.target.value,
           }));
         }}
       />
       <button
         className="add-todo__btn"
         onClick={() => {
-          setNewTodo({ description: "", completed: false });
+          setNewTodo({ title: "", completed: false });
           handleAdd({
             ...newTodo,
-            id: newTodo.description,
+            id: newTodo.title,
           });
         }}
       >

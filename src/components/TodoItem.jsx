@@ -3,7 +3,7 @@ import { MdOutlineModeEditOutline, MdDeleteOutline } from "react-icons/md";
 import { FiSave } from "react-icons/fi";
 
 function TodoItem({ todo, handleChecked, handleDelete, handleEdit }) {
-  const [editedTodo, setEditedTodo] = useState(todo.description);
+  const [editedTodo, setEditedTodo] = useState(todo.title);
   const [editMode, setEditMode] = useState(false);
   const toggleEditMode = () => {
     setEditMode(!editMode);
@@ -11,7 +11,7 @@ function TodoItem({ todo, handleChecked, handleDelete, handleEdit }) {
 
   const handleEditButton = () => {
     if (editMode) {
-      handleEdit({ ...todo, description: editedTodo });
+      handleEdit({ ...todo, title: editedTodo });
     }
 
     toggleEditMode();
@@ -36,7 +36,7 @@ function TodoItem({ todo, handleChecked, handleDelete, handleEdit }) {
             onChange={(e) => setEditedTodo(e.target.value)}
           />
         ) : (
-          <label htmlFor={`checkbox-${todo.id}`}>{todo.description}</label>
+          <label htmlFor={`checkbox-${todo.id}`}>{todo.title}</label>
         )}
       </section>
 
