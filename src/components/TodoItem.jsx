@@ -24,19 +24,33 @@ function TodoItem({ todo, handleChecked, handleDelete, handleEdit }) {
           id={`checkbox-${todo["id"]}`}
           type="checkbox"
           checked={todo.completed}
+          className="todo__checkbox"
           onChange={(e) => {
             handleChecked(todo["id"], e.target.checked);
           }}
-          />
+        />
+
         {editMode ? (
           <input
-          className="add-todo__input"
+            className="add-todo__input"
             type="text"
             value={editedTodo}
             onChange={(e) => setEditedTodo(e.target.value)}
           />
         ) : (
-          <label htmlFor={`checkbox-${todo.id}`}>{todo.title}</label>
+          <div className="todo__details">
+            <label
+              htmlFor={`checkbox-${todo.id}`}
+              style={{ fontWeight: "bold" }}
+            >
+              {todo.title}
+            </label>
+            <div>{todo.description}</div>
+            {todo.deadline && <div>Deadline: {todo.deadline}</div>}
+            {todo.dateModified && <div>Date Modified: {todo.dateModified}</div>}
+            <div>Date Created: {todo.dateCreated}</div>
+            <div>Priority: {todo.priority}</div>
+          </div>
         )}
       </section>
 
@@ -46,10 +60,17 @@ function TodoItem({ todo, handleChecked, handleDelete, handleEdit }) {
             handleEditButton();
           }}
         >
-          {editMode ? <FiSave className="action-icon" /> : <MdOutlineModeEditOutline className="action-icon" />}
+          {editMode ? (
+            <FiSave className="action-icon" />
+          ) : (
+            <MdOutlineModeEditOutline className="action-icon" />
+          )}
         </span>
 
-        <MdDeleteOutline className="action-icon" onClick={() => handleDelete(todo["id"])} />
+        <MdDeleteOutline
+          className="action-icon"
+          onClick={() => handleDelete(todo["id"])}
+        />
       </section>
     </li>
   );
