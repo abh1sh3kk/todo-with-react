@@ -238,7 +238,12 @@ function App() {
   };
 
   const handleAdd = (todo) => {
-    console.log(todo);
+    // if (id exists) edit
+    // else add
+
+    if (todos.includes(todo.id)) console.log("I should edit");
+
+    console.log("I should add");
     setTodos((oldTodos) => [...oldTodos, todo]);
   };
 
@@ -259,7 +264,10 @@ function App() {
           handleDelete={handleDelete}
           handleEdit={handleEdit}
         />
-        <TodoForm handleAdd={handleAdd} />
+        <TodoForm
+          existingIds={todos.map((todo) => todo.id)}
+          handleAdd={handleAdd}
+        />
       </section>
     </main>
   );

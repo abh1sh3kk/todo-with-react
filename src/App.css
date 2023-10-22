@@ -108,12 +108,19 @@ button {
   flex: 1;
 }
 
+.error-msg {
+  color: rgb(190, 0, 0);
+}
+
 .add-todo {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 0.5rem;
   width: 100%;
+  border: 1px solid #e5e5e5;
+  padding: 1rem;
+  border-radius: 0.3rem;
 }
 
 .add-todo__field {

@@ -1,7 +1,21 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { BsPlusLg } from "react-icons/bs";
+import { v4 as uuidv4 } from "uuid";
 
-function TodoForm({ handleAdd }) {
+function TodoForm({ handleAdd, existingIds }) {
+  const [errorMsg, setErrorMsg] = useState("");
+
+  const showError = useCallback(
+    (message) => {
+      setErrorMsg(message);
+
+      setTimeout(() => {
+        setErrorMsg("");
+      }, 2000);
+    },
+    [errorMsg]
+  );
+
   const defaultState = {
     title: "",
     description: "",
@@ -12,13 +26,26 @@ function TodoForm({ handleAdd }) {
     priority: "medium",
     category: "",
   };
+
+  const validateForm = (form) => {
+    if (form.title.length === 0) {
+      showError("Title can't be empty");
+      return false;
+    }
+
+    if (existingIds.includes(form.id)) {
+      console.log("Nooo it already exists");
+      return false;
+    }
+    return true;
+  };
+
   const [newTodo, setNewTodo] = useState(defaultState);
   return (
     <form
       className="form add-todo"
       onSubmit={(e) => {
         e.preventDefault();
-        console.log(newTodo);
       }}
     >
       <label className="add-todo__field">
@@ -68,21 +95,29 @@ function TodoForm({ handleAdd }) {
 
       <div className="add-todo__radio-grp">
         <span>Priority:</span>
-        <label>
-          <input type="radio" name="priority" />
-          <span>High</span>
-        </label>{" "}
-        <label>
-          <input type="radio" name="priority" />
-          <span>Medium</span>
-        </label>{" "}
-        <label>
-          <input type="radio" name="priority" />
-          <span>Low</span>
-        </label>
+        {[
+          { label: "High", value: "high" },
+          { label: "Medium", value: "medium" },
+          { label: "Low", value: "low" },
+        ].map((priority) => (
+          <label key={priority.value}>
+            <input
+              type="radio"
+              name="priority"
+              checked={priority.value === newTodo.priority}
+              onChange={() => {
+                setNewTodo((oldTodo) => ({
+                  ...oldTodo,
+                  priority: priority.value,
+                }));
+              }}
+            />
+            <span>{priority.label}</span>
+          </label>
+        ))}
       </div>
 
-      <label className="add-todo__field">
+      <label>
         <span>Deadline: </span>
         <input
           type="date"
@@ -92,19 +127,31 @@ function TodoForm({ handleAdd }) {
           max="2024-12-12"
           value="2023-10-21"
           onChange={(e) => {
-            console.log(e.target.value);
+            setNewTodo((oldTodo) => ({
+              ...oldTodo,
+              deadline: e.target.value,
+            }));
           }}
         />
       </label>
 
+      <p className="error-msg">{errorMsg}</p>
+
       <button
         className="add-todo__btn"
         onClick={() => {
-          setNewTodo(defaultState);
-          handleAdd({
-            ...newTodo,
-            id: newTodo.title,
-          });
+          const newId = uuidv4();
+          if (validateForm(newTodo)) {
+            console.log("Validated");
+
+            setNewTodo(defaultState);
+            handleAdd({
+              ...newTodo,
+              id: newId,
+            });
+          } else {
+            console.log("Not validated");
+          }
         }}
       >
         <BsPlusLg />
