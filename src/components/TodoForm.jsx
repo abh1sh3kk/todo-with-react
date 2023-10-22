@@ -135,18 +135,42 @@ function TodoForm({ handleAdd, existingIds }) {
         />
       </label>
 
+      <label>
+        <span>Completed: </span>
+        <input
+          type="checkbox"
+          id="isCompleted"
+          name="completed"
+          checked={newTodo.completed}
+          onChange={() => {
+            setNewTodo((oldTodo) => ({
+              ...oldTodo,
+              completed: !oldTodo.completed,
+            }));
+          }}
+        />
+      </label>
+
       <p className="error-msg">{errorMsg}</p>
 
       <button
         className="add-todo__btn"
         onClick={() => {
-          const newId = uuidv4();
           if (validateForm(newTodo)) {
+            const newId = uuidv4();
+            const dateNow = new Date();
+            const createdDate =
+              dateNow.getFullYear() +
+              "/" +
+              dateNow.getMonth() +
+              "/" +
+              dateNow.getDate();
             console.log("Validated");
 
             setNewTodo(defaultState);
             handleAdd({
               ...newTodo,
+              dateCreated: createdDate,
               id: newId,
             });
           } else {
