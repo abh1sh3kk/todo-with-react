@@ -1,8 +1,21 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { BsPlusLg } from "react-icons/bs";
 import { v4 as uuidv4 } from "uuid";
 
+const emptyState = {
+  title: "",
+  description: "",
+  completed: false,
+  dateCreated: "",
+  dateModified: "",
+  deadline: "",
+  priority: "medium",
+  category: "",
+};
+
 function TodoForm({ handleAdd, currentTodo }) {
+  const [newTodo, setNewTodo] = useState(currentTodo || emptyState);
+
   const [errorMsg, setErrorMsg] = useState("");
 
   const showError = useCallback(
@@ -16,20 +29,9 @@ function TodoForm({ handleAdd, currentTodo }) {
     [errorMsg]
   );
 
-  const defaultState = {
-    title: "",
-    description: "",
-    completed: false,
-    dateCreated: "",
-    dateModified: "",
-    deadline: "",
-    priority: "medium",
-    category: "",
-  };
-
   const validateForm = (form) => {
     if (form.title.length === 0) {
-      showError("Title can't be empty");
+      showError("× Title can't be empty");
       return false;
     }
 
@@ -38,37 +40,40 @@ function TodoForm({ handleAdd, currentTodo }) {
 
   const handleSubmit = () => {
     if (validateForm(newTodo)) {
-      const newId = uuidv4();
+
       const dateNow = new Date();
-      const createdDate =
+      const formattedDate =
         dateNow.getFullYear() +
         "/" +
         dateNow.getMonth() +
         "/" +
         dateNow.getDate();
-      console.log("Validated");
 
-      setNewTodo(defaultState);
+      setNewTodo(emptyState);
+
+      if (!!currentTodo) {
+        handleAdd({ ...newTodo, dateModified: formattedDate });
+        return;
+      }
+
+      const newId = uuidv4();
       handleAdd({
         ...newTodo,
-        dateCreated: createdDate,
+        dateCreated: formattedDate,
         id: newId,
       });
-    } else {
-      console.log("Not validated");
     }
   };
 
-  const [newTodo, setNewTodo] = useState(currentTodo);
-
   const handleFormChange = (e) => {
     let newValue = e.target.value;
-    if (e.target.name === "priority") {
-      newValue = e.target.getAttribute("data-priority");
-    }
 
     if (e.target.type === "checkbox") {
       newValue = e.target.checked;
+    }
+
+    if (e.target.name === "priority") {
+      newValue = e.target.getAttribute("data-priority");
     }
 
     setNewTodo((oldTodo) => ({
@@ -82,6 +87,7 @@ function TodoForm({ handleAdd, currentTodo }) {
       className="form add-todo"
       onSubmit={(e) => {
         e.preventDefault();
+        handleSubmit();
       }}
     >
       <label className="add-todo__field">
@@ -147,6 +153,7 @@ function TodoForm({ handleAdd, currentTodo }) {
           min="2023-01-01"
           max="2024-12-12"
           value={newTodo.deadline}
+          // value="2022-01-21"
           onChange={handleFormChange}
         />
       </label>
@@ -164,10 +171,25 @@ function TodoForm({ handleAdd, currentTodo }) {
 
       <p className="error-msg">{errorMsg}</p>
 
-      <button className="add-todo__btn" onClick={handleSubmit}>
-        <BsPlusLg />
-        <span>Add</span>
-      </button>
+      <section className="btn-container">
+        <button type="submit" className="btn add-todo__btn">
+          {!currentTodo ? (
+            <>
+              <BsPlusLg />
+              <span>Add</span>
+            </>
+          ) : (
+            <span>Save</span>
+          )}
+        </button>
+        <button
+          className="btn add-todo__btn--reset"
+          type="reset"
+          onClick={() => setNewTodo(emptyState)}
+        >
+          <span>Reset</span>
+        </button>
+      </section>
     </form>
   );
 }
