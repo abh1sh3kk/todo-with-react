@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { BsPlusLg } from "react-icons/bs";
+import { useReducer, useState } from "react";
 import "./App.css";
 import TodoForm from "./components/TodoForm";
 import ItemList from "./components/ItemList";
@@ -175,10 +174,54 @@ const importedTodos = [
   },
 ];
 
+const todoReduer = (state, action) => {
+  switch (action.type) {
+    case "add_todo": {
+      console.log(action.todo);
+      console.log("todo has been added");
+      break;
+    }
+    case "remove_todo": {
+      console.log(action.id);
+      console.log("todo has been removed");
+      break;
+    }
+    case "edit_todo": {
+      console.log(action.todo);
+      console.log("todo has been edited");
+      break;
+    }
+    case "toggle_todo_state": {
+      console.log(action.id);
+      console.log("If it's not done, I'll do it. If it's done, I'll undo it.");
+      break;
+    }
+    case "set_todo_state": {
+      console.log(action.id, action.completed);
+      console.log("I do what I am asked to do.");
+      break;
+    }
+    default: {
+      console.log("hmmm, I don't know what is supposed to be done.");
+    }
+  }
+  return state;
+};
+
 function App() {
+  const [todoBeingEdited, setTodoBeingEdited] = useState(null);
+
   const [todos, setTodos] = useState(importedTodos);
 
+  const [todo, dispatch] = useReducer(importedTodos, todoReduer);
+
   const handleChecked = (id, isCompleted) => {
+    // dispatch({
+    //   type: "toggle_todo_state",
+    //   id: id,
+    //   completed: isCompleted,
+    // });
+
     setTodos((oldTodos) =>
       oldTodos.map((todo) =>
         todo.id === id
@@ -192,6 +235,11 @@ function App() {
   };
 
   const handleDelete = (id) => {
+    // dispatch({
+    //   type: "remove_todo",
+    //   id: id,
+    // });
+
     setTodos((oldTodos) => oldTodos.filter((todo) => todo.id !== id));
   };
 
@@ -202,17 +250,22 @@ function App() {
       return;
     }
 
+    // dispatch({
+    //   type: "add_todo",
+    //   todo: todo,
+    // });
     setTodos((oldTodos) => [...oldTodos, todo]);
   };
 
   const handleEdit = (editedTodo) => {
+    // dispatch({
+    //   type: "edit_todo",
+    //   todo: editedTodo,
+    // });
     setTodos((oldTodos) =>
       oldTodos.map((todo) => (todo.id === editedTodo.id ? editedTodo : todo))
     );
   };
-
-  // ----------------------------------------------
-  const [todoBeingEdited, setTodoBeingEdited] = useState(null);
 
   return (
     <main className="container">

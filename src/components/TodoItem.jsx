@@ -1,7 +1,5 @@
-import { useMemo, useState } from "react";
+/* eslint-disable react/prop-types */
 import { MdOutlineModeEditOutline, MdDeleteOutline } from "react-icons/md";
-import { FiSave } from "react-icons/fi";
-import TodoForm from "./TodoForm";
 
 function TodoItem({
   todo,
@@ -15,9 +13,7 @@ function TodoItem({
     else setTodoBeingEdited(todo.id);
   };
 
-  const editMode = useMemo(() => {
-    return todoBeingEdited === todo.id;
-  }, [todoBeingEdited]);
+  const editMode = todoBeingEdited === todo.id;
 
   return (
     <li className="todo">
@@ -54,7 +50,9 @@ function TodoItem({
 
         <MdDeleteOutline
           className="action-icon"
-          onClick={() => handleDelete(todo["id"])}
+          onClick={() => {
+            handleDelete(todo["id"]);
+          }}
         />
       </section>
     </li>

@@ -13,6 +13,7 @@ const emptyState = {
   category: "",
 };
 
+
 function TodoForm({ handleAdd, currentTodo }) {
   const [newTodo, setNewTodo] = useState(currentTodo || emptyState);
 
@@ -40,7 +41,6 @@ function TodoForm({ handleAdd, currentTodo }) {
 
   const handleSubmit = () => {
     if (validateForm(newTodo)) {
-
       const dateNow = new Date();
       const formattedDate =
         dateNow.getFullYear() +
