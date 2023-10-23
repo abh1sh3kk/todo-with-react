@@ -81,16 +81,41 @@ button {
   border: 1px solid blueviolet;
 }
 
-.add-todo__btn {
+.date-input {
+  font-family: inherit;
+  font-weight: 200;
+  border-radius: 0.2rem;
+  border: 1px solid #d2d2d2;
+  outline: transparent;
+  padding: 0.3rem 0.6rem;
+  margin-inline: 0.6rem;
+}
+
+.btn-container {
   display: flex;
-  font-size: 1rem;
+  gap: 1rem;
+}
+
+.btn {
+  display: flex;
   align-items: center;
   gap: 0.3rem;
+  padding: 0.5rem 1rem;
+}
+
+.add-todo__btn {
   /* padding-inline-end: 1.3rem;
   padding-block: 0.5rem; */
   background-color: blueviolet;
   color: white;
 }
+
+.add-todo__btn--reset {
+  background: transparent;
+  color: blueviolet;
+  font-size: 1rem;
+}
+
 
 .todo {
   display: flex;

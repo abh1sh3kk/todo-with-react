@@ -1,6 +1,6 @@
 import TodoItem from "./TodoItem";
 
-function ItemList({ todos, handleChecked, handleDelete, handleEdit }) {
+function ItemList({ todos, handleChecked, handleDelete, handleEdit, todoBeingEdited, setTodoBeingEdited }) {
   const itemList = todos.map((todo) => {
     return (
       <TodoItem
@@ -9,6 +9,8 @@ function ItemList({ todos, handleChecked, handleDelete, handleEdit }) {
         handleChecked={handleChecked}
         handleDelete={handleDelete}
         handleEdit={handleEdit}
+        todoBeingEdited={todoBeingEdited}
+        setTodoBeingEdited={setTodoBeingEdited}
       />
     );
   });
