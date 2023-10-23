@@ -2,7 +2,7 @@ import { useCallback, useState } from "react";
 import { BsPlusLg } from "react-icons/bs";
 import { v4 as uuidv4 } from "uuid";
 
-function TodoForm({ handleAdd, existingIds }) {
+function TodoForm({ handleAdd, currentTodo }) {
   const [errorMsg, setErrorMsg] = useState("");
 
   const showError = useCallback(
@@ -33,14 +33,50 @@ function TodoForm({ handleAdd, existingIds }) {
       return false;
     }
 
-    if (existingIds.includes(form.id)) {
-      console.log("Nooo it already exists");
-      return false;
-    }
     return true;
   };
 
-  const [newTodo, setNewTodo] = useState(defaultState);
+  const handleSubmit = () => {
+    if (validateForm(newTodo)) {
+      const newId = uuidv4();
+      const dateNow = new Date();
+      const createdDate =
+        dateNow.getFullYear() +
+        "/" +
+        dateNow.getMonth() +
+        "/" +
+        dateNow.getDate();
+      console.log("Validated");
+
+      setNewTodo(defaultState);
+      handleAdd({
+        ...newTodo,
+        dateCreated: createdDate,
+        id: newId,
+      });
+    } else {
+      console.log("Not validated");
+    }
+  };
+
+  const [newTodo, setNewTodo] = useState(currentTodo);
+
+  const handleFormChange = (e) => {
+    let newValue = e.target.value;
+    if (e.target.name === "priority") {
+      newValue = e.target.getAttribute("data-priority");
+    }
+
+    if (e.target.type === "checkbox") {
+      newValue = e.target.checked;
+    }
+
+    setNewTodo((oldTodo) => ({
+      ...oldTodo,
+      [e.target.name]: newValue,
+    }));
+  };
+
   return (
     <form
       className="form add-todo"
@@ -53,13 +89,9 @@ function TodoForm({ handleAdd, existingIds }) {
         <input
           type="text"
           className="add-todo__input"
+          name="title"
           value={newTodo.title}
-          onChange={(e) => {
-            setNewTodo((oldTodo) => ({
-              ...oldTodo,
-              title: e.target.value,
-            }));
-          }}
+          onChange={handleFormChange}
         />{" "}
       </label>
 
@@ -69,12 +101,8 @@ function TodoForm({ handleAdd, existingIds }) {
           type="text"
           className="add-todo__input"
           value={newTodo.description}
-          onChange={(e) => {
-            setNewTodo((oldTodo) => ({
-              ...oldTodo,
-              description: e.target.value,
-            }));
-          }}
+          name="description"
+          onChange={handleFormChange}
         />
       </label>
 
@@ -83,13 +111,9 @@ function TodoForm({ handleAdd, existingIds }) {
         <input
           type="text"
           className="add-todo__input"
+          name="category"
           value={newTodo.category}
-          onChange={(e) => {
-            setNewTodo((oldTodo) => ({
-              ...oldTodo,
-              category: e.target.value,
-            }));
-          }}
+          onChange={handleFormChange}
         />
       </label>
 
@@ -105,12 +129,8 @@ function TodoForm({ handleAdd, existingIds }) {
               type="radio"
               name="priority"
               checked={priority.value === newTodo.priority}
-              onChange={() => {
-                setNewTodo((oldTodo) => ({
-                  ...oldTodo,
-                  priority: priority.value,
-                }));
-              }}
+              data-priority={priority.value}
+              onChange={handleFormChange}
             />
             <span>{priority.label}</span>
           </label>
@@ -120,18 +140,14 @@ function TodoForm({ handleAdd, existingIds }) {
       <label>
         <span>Deadline: </span>
         <input
+          className="date-input"
           type="date"
           id="deadline"
           name="deadline"
           min="2023-01-01"
           max="2024-12-12"
-          value="2023-10-21"
-          onChange={(e) => {
-            setNewTodo((oldTodo) => ({
-              ...oldTodo,
-              deadline: e.target.value,
-            }));
-          }}
+          value={newTodo.deadline}
+          onChange={handleFormChange}
         />
       </label>
 
@@ -142,42 +158,13 @@ function TodoForm({ handleAdd, existingIds }) {
           id="isCompleted"
           name="completed"
           checked={newTodo.completed}
-          onChange={() => {
-            setNewTodo((oldTodo) => ({
-              ...oldTodo,
-              completed: !oldTodo.completed,
-            }));
-          }}
+          onChange={handleFormChange}
         />
       </label>
 
       <p className="error-msg">{errorMsg}</p>
 
-      <button
-        className="add-todo__btn"
-        onClick={() => {
-          if (validateForm(newTodo)) {
-            const newId = uuidv4();
-            const dateNow = new Date();
-            const createdDate =
-              dateNow.getFullYear() +
-              "/" +
-              dateNow.getMonth() +
-              "/" +
-              dateNow.getDate();
-            console.log("Validated");
-
-            setNewTodo(defaultState);
-            handleAdd({
-              ...newTodo,
-              dateCreated: createdDate,
-              id: newId,
-            });
-          } else {
-            console.log("Not validated");
-          }
-        }}
-      >
+      <button className="add-todo__btn" onClick={handleSubmit}>
         <BsPlusLg />
         <span>Add</span>
       </button>
