@@ -239,7 +239,6 @@ function App() {
     //   type: "remove_todo",
     //   id: id,
     // });
-
     setTodos((oldTodos) => oldTodos.filter((todo) => todo.id !== id));
   };
 
@@ -249,7 +248,6 @@ function App() {
       setTodoBeingEdited(null);
       return;
     }
-
     // dispatch({
     //   type: "add_todo",
     //   todo: todo,
