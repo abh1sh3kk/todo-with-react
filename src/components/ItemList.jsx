@@ -1,14 +1,17 @@
+import { useContext } from "react";
 import TodoItem from "./TodoItem";
+import { TodoContext } from "../context/TodoContext";
 
-function ItemList({ todos, handleChecked, handleDelete, handleEdit, todoBeingEdited, setTodoBeingEdited }) {
+function ItemList({
+  todoBeingEdited,
+  setTodoBeingEdited,
+}) {
+  const todos = useContext(TodoContext);
   const itemList = todos.map((todo) => {
     return (
       <TodoItem
         key={todo.id}
         todo={todo}
-        handleChecked={handleChecked}
-        handleDelete={handleDelete}
-        handleEdit={handleEdit}
         todoBeingEdited={todoBeingEdited}
         setTodoBeingEdited={setTodoBeingEdited}
       />

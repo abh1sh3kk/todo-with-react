@@ -1,6 +1,8 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import { BsPlusLg } from "react-icons/bs";
 import { v4 as uuidv4 } from "uuid";
+import { handleAdd, handleEdit, handleWrite } from "../Utils/utils";
+import { TodoDispatchContext } from "../context/TodoContext";
 
 const emptyState = {
   title: "",
@@ -13,8 +15,8 @@ const emptyState = {
   category: "",
 };
 
-
-function TodoForm({ handleAdd, currentTodo }) {
+function TodoForm({ currentTodo, setTodoBeingEdited }) {
+  const dispatch = useContext(TodoDispatchContext);
   const [newTodo, setNewTodo] = useState(currentTodo || emptyState);
 
   const [errorMsg, setErrorMsg] = useState("");
@@ -41,6 +43,7 @@ function TodoForm({ handleAdd, currentTodo }) {
 
   const handleSubmit = () => {
     if (validateForm(newTodo)) {
+
       const dateNow = new Date();
       const formattedDate =
         dateNow.getFullYear() +
@@ -48,20 +51,24 @@ function TodoForm({ handleAdd, currentTodo }) {
         dateNow.getMonth() +
         "/" +
         dateNow.getDate();
-
+        
       setNewTodo(emptyState);
+      setTodoBeingEdited(null);
 
-      if (!!currentTodo) {
-        handleAdd({ ...newTodo, dateModified: formattedDate });
+      if (currentTodo) {
+        handleEdit({ ...newTodo, dateModified: formattedDate }, dispatch);
         return;
       }
 
       const newId = uuidv4();
-      handleAdd({
-        ...newTodo,
-        dateCreated: formattedDate,
-        id: newId,
-      });
+      handleAdd(
+        {
+          ...newTodo,
+          dateCreated: formattedDate,
+          id: newId,
+        },
+        dispatch
+      );
     }
   };
 
@@ -153,7 +160,6 @@ function TodoForm({ handleAdd, currentTodo }) {
           min="2023-01-01"
           max="2024-12-12"
           value={newTodo.deadline}
-          // value="2022-01-21"
           onChange={handleFormChange}
         />
       </label>
