@@ -4,15 +4,13 @@ import { MdOutlineModeEditOutline, MdDeleteOutline } from "react-icons/md";
 import { TodoDispatchContext } from "../context/TodoContext";
 import { handleDelete, handleChecked } from "../Utils/utils.js";
 
-function TodoItem({ todo, todoBeingEdited, setTodoBeingEdited }) {
+function TodoItem({ todo, isTodoBeingEdited: editMode, setTodoBeingEdited }) {
   const dispatch = useContext(TodoDispatchContext);
 
   const toggleTodoBeingEdited = () => {
-    if (todoBeingEdited === todo.id) setTodoBeingEdited(null);
+    if (editMode) setTodoBeingEdited(null);
     else setTodoBeingEdited(todo.id);
   };
-
-  const editMode = todoBeingEdited === todo.id;
 
   return (
     <li className="todo">

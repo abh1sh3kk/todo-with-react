@@ -2,9 +2,7 @@ import { createContext, useReducer } from "react";
 
 export const TodoContext = createContext(null);
 export const TodoDispatchContext = createContext(null);
-
 function TodoProvider({ children }) {
-
   const [todo, dispatch] = useReducer(todoReduer, importedTodos);
   return (
     <TodoDispatchContext.Provider value={dispatch}>
@@ -14,6 +12,39 @@ function TodoProvider({ children }) {
 }
 
 export default TodoProvider;
+
+const todoReduer = (state, action) => {
+  switch (action.type) {
+    case "add_todo": {
+      return [...state, action.todo];
+    }
+    case "remove_todo": {
+      return state.filter((item) => item.id !== action.id);
+    }
+    case "edit_todo": {
+      return state.map((item) => {
+        if (item.id === action.todo.id) return action.todo;
+        return item;
+      });
+    }
+    case "toggle_todo_state": {
+      return state.map((item) => {
+        if (item.id === action.id)
+          return { ...item, completed: action.completed };
+        return item;
+      });
+    }
+    case "set_todo_state": {
+      console.log(action.id, action.completed);
+      console.log("I do what I am asked to do.");
+      break;
+    }
+    default: {
+      console.log("hmmm, I don't know what is supposed to be done.");
+    }
+  }
+  return state;
+};
 
 const importedTodos = [
   {
@@ -185,36 +216,3 @@ const importedTodos = [
     category: "Others",
   },
 ];
-
-const todoReduer = (state, action) => {
-  switch (action.type) {
-    case "add_todo": {
-      return [...state, action.todo];
-    }
-    case "remove_todo": {
-      return state.filter((item) => item.id !== action.id);
-    }
-    case "edit_todo": {
-      return state.map((item) => {
-        if (item.id === action.todo.id) return action.todo;
-        return item;
-      });
-    }
-    case "toggle_todo_state": {
-      return state.map((item) => {
-        if (item.id === action.id)
-          return { ...item, completed: action.completed };
-        return item;
-      });
-    }
-    case "set_todo_state": {
-      console.log(action.id, action.completed);
-      console.log("I do what I am asked to do.");
-      break;
-    }
-    default: {
-      console.log("hmmm, I don't know what is supposed to be done.");
-    }
-  }
-  return state;
-};
