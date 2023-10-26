@@ -5,8 +5,7 @@ import ItemList from "./components/ItemList";
 import { TodoContext } from "./context/TodoContext";
 
 function App() {
-  const { todos, todoBeingEdited } =
-    useContext(TodoContext);
+  const { todos, todoBeingEdited } = useContext(TodoContext);
 
   return (
     <main className="container">
@@ -14,10 +13,7 @@ function App() {
         <h1 className="heading1">Todo List</h1>
 
         <ItemList />
-        <TodoForm
-          key={todoBeingEdited}
-          currentTodo={}
-        />
+        <TodoForm key={todoBeingEdited} />
       </section>
     </main>
   );
