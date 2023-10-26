@@ -1,11 +1,11 @@
 /* eslint-disable react/prop-types */
 import { useContext } from "react";
 import { MdOutlineModeEditOutline, MdDeleteOutline } from "react-icons/md";
-import { TodoDispatchContext } from "../context/TodoContext";
+import { TodoContext } from "../context/TodoContext";
 import { handleDelete, handleChecked } from "../Utils/utils.js";
 
-function TodoItem({ todo, isTodoBeingEdited: editMode, setTodoBeingEdited }) {
-  const dispatch = useContext(TodoDispatchContext);
+function TodoItem({ todo, isTodoBeingEdited: editMode }) {
+  const { dispatch, setTodoBeingEdited } = useContext(TodoContext);
 
   const toggleTodoBeingEdited = () => {
     if (editMode) setTodoBeingEdited(null);

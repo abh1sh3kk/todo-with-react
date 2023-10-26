@@ -1,8 +1,8 @@
 import { useCallback, useContext, useState } from "react";
 import { BsPlusLg } from "react-icons/bs";
 import { v4 as uuidv4 } from "uuid";
-import { handleAdd, handleEdit, handleWrite } from "../Utils/utils";
-import { TodoDispatchContext } from "../context/TodoContext";
+import { handleAdd, handleEdit } from "../Utils/utils";
+import { TodoContext } from "../context/TodoContext";
 
 const emptyState = {
   title: "",
@@ -15,8 +15,11 @@ const emptyState = {
   category: "",
 };
 
-function TodoForm({ currentTodo, setTodoBeingEdited }) {
-  const dispatch = useContext(TodoDispatchContext);
+function TodoForm() {
+  const { todos, dispatch, setTodoBeingEdited, todoBeingEdited } =
+    useContext(TodoContext);
+
+  const currentTodo = todos.find((item) => item.id === todoBeingEdited);
   const [newTodo, setNewTodo] = useState(currentTodo || emptyState);
 
   const [errorMsg, setErrorMsg] = useState("");
@@ -43,7 +46,6 @@ function TodoForm({ currentTodo, setTodoBeingEdited }) {
 
   const handleSubmit = () => {
     if (validateForm(newTodo)) {
-
       const dateNow = new Date();
       const formattedDate =
         dateNow.getFullYear() +
@@ -51,7 +53,7 @@ function TodoForm({ currentTodo, setTodoBeingEdited }) {
         dateNow.getMonth() +
         "/" +
         dateNow.getDate();
-        
+
       setNewTodo(emptyState);
       setTodoBeingEdited(null);
 
@@ -157,8 +159,8 @@ function TodoForm({ currentTodo, setTodoBeingEdited }) {
           type="date"
           id="deadline"
           name="deadline"
-          min="2023-01-01"
-          max="2024-12-12"
+          min="2022-01-01"
+          max="2025-12-12"
           value={newTodo.deadline}
           onChange={handleFormChange}
         />
