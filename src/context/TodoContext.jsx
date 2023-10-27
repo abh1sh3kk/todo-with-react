@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { createContext, useReducer, useState } from "react";
 
 export const TodoContext = createContext(null);
