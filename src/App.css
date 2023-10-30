@@ -23,6 +23,13 @@ body {
   align-items: center;
 }
 
+li {
+  border: 0.5px solid #e9e9e9;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin-block: 0.5rem;
+}
+
 .todo-container {
   width: clamp(320px, 60vw, 800px);
   min-height: 60vh;
@@ -115,7 +122,6 @@ button {
   color: blueviolet;
   font-size: 1rem;
 }
-
 
 .todo {
   display: flex;

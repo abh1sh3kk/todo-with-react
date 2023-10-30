@@ -1,18 +1,11 @@
+/* eslint-disable react/prop-types */
 import { useContext } from "react";
-import TodoItem from "./TodoItem";
 import { TodoContext } from "../context/TodoContext";
 
-function ItemList() {
-  const { todos, todoBeingEdited  } =
-    useContext(TodoContext);
+function ItemList({ renderTodoItem }) {
+  const { todos, todoBeingEdited } = useContext(TodoContext);
   const itemList = todos.map((todo) => {
-    return (
-      <TodoItem
-        key={todo.id}
-        todo={todo}
-        isTodoBeingEdited={todoBeingEdited === todo.id}
-      />
-    );
+    return renderTodoItem(todo, todoBeingEdited);
   });
   return <ul className="item-list">{itemList}</ul>;
 }
