@@ -1,6 +1,16 @@
-const PersonItem = ({ item }) => {
+import { useContext } from "react";
+import { DataContext } from "../context/DataContext";
+
+const PersonItem = ({ item, isSelected }) => {
+  const { handleSelect } = useContext(DataContext);
+
   return (
-    <section className="person-card">
+    <li
+      className={isSelected ? "person-card card--selected" : "person-card"}
+      onClick={() => {
+        handleSelect(item.id);
+      }}
+    >
       <div className="person-card__head">
         <h3>{item.name}</h3>
         <p className="text-dim">{item.email}</p>
@@ -16,7 +26,7 @@ const PersonItem = ({ item }) => {
           <span className="text-dim">{item.dob}</span>
         </p>
       </div>
-    </section>
+    </li>
   );
 };
 

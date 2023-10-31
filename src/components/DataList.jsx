@@ -2,10 +2,12 @@ import { useContext } from "react";
 import { DataContext } from "../context/DataContext";
 
 function DataList() {
-  const { data, renderItems } = useContext(DataContext);
+  const { data, renderItems, selectedId } = useContext(DataContext);
 
-  const dataList = data.map((item) => {
-    return <li key={item.id}>{renderItems(item)}</li>;
+  const dataList = data.map((item, index) => {
+    let isItemSelected = item.id === selectedId;
+    if (selectedId === null && index === 0) isItemSelected = true;
+    return renderItems(item, isItemSelected);
   });
 
   return (

@@ -1,6 +1,15 @@
-const TodoListItem = ({ item }) => {
+import { useContext } from "react";
+import { DataContext } from "../context/DataContext";
+
+const TodoListItem = ({ item, isSelected }) => {
+  const { handleSelect } = useContext(DataContext);
   return (
-    <div className="">
+    <li
+      className={isSelected ? "card--selected" : ""}
+      onClick={() => {
+        handleSelect(item.id);
+      }}
+    >
       <section className="todo__info">
         <div className="todo__details">
           <label htmlFor={`checkbox-${item.id}`} style={{ fontWeight: "bold" }}>
@@ -13,7 +22,7 @@ const TodoListItem = ({ item }) => {
           <div>Priority: {item.priority}</div>
         </div>
       </section>
-    </div>
+    </li>
   );
 };
 

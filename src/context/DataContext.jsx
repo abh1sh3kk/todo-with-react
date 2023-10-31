@@ -1,17 +1,26 @@
-import { createContext } from "react";
+/* eslint-disable react/prop-types */
+import { createContext, useState } from "react";
 import SchoolItem from "../components/SchoolItem";
-import TodoListItem from "../components/TodoListItem";
+import PersonItem from "../components/PersonItem";
 
 export const DataContext = createContext(null);
 
 export default function DataProvider({ children }) {
-  const data = todoData;
-  const renderItems = (item) => {
-    return <TodoListItem item={item} />;
+  const [selectedId, setSelectedId] = useState(null);
+
+  const handleSelect = (id) => {
+    setSelectedId(id);
+  };
+  const data = personData;
+
+  const renderItems = (item, isSelected) => {
+    return <PersonItem key={item.id} item={item} isSelected={isSelected} />;
   };
 
   return (
-    <DataContext.Provider value={{ data, renderItems }}>
+    <DataContext.Provider
+      value={{ data, renderItems, selectedId, handleSelect }}
+    >
       {children}
     </DataContext.Provider>
   );

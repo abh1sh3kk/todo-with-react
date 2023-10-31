@@ -182,6 +182,10 @@ button {
 
 /* -------------------------------- */
 
+.card--selected {
+  background-color: #a442e31a;
+}
+
 .card__row {
   display: flex;
   gap: 1rem;
