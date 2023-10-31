@@ -33,7 +33,7 @@ li {
 .todo-container {
   width: clamp(320px, 60vw, 800px);
   min-height: 60vh;
-  max-height: 920px;
+  max-height: 880px;
 
   display: flex;
   flex-direction: column;
@@ -46,6 +46,10 @@ li {
   padding: 1.4rem 1.5rem;
   background-color: white;
   /* backdrop-filter: blur(3px); */
+}
+
+.app-list {
+  overflow: auto;
 }
 
 .heading1 {
@@ -175,3 +179,29 @@ button {
 .action-icon:hover {
   transform: scale(1.2);
 }
+
+/* -------------------------------- */
+
+.card__row {
+  display: flex;
+  gap: 1rem;
+  /* border: 2px solid red; */
+  justify-content: space-between;
+}
+
+.person-card__head {
+  display: flex;
+  flex-direction: column;
+}
+
+.person-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.text-dim {
+  color: #919191;
+}
+
+/* -------------------------------- */
