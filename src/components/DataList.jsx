@@ -1,20 +1,15 @@
 import { useContext } from "react";
 import { DataContext } from "../context/DataContext";
-import ShowItem from "./ShowItem";
 
 function DataList() {
-  const { data, schema } = useContext(DataContext);
+  const { data, renderItems } = useContext(DataContext);
 
   const dataList = data.map((item) => {
-    return (
-      <li key={item.id}>
-        <ShowItem item={item} />
-      </li>
-    );
+    return <li key={item.id}>{renderItems(item)}</li>;
   });
 
   return (
-    <section>
+    <section className="app-list">
       <ul>{dataList}</ul>
     </section>
   );
